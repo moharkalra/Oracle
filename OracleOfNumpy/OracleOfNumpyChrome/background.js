@@ -1,12 +1,12 @@
 
 var firebaseConfig = {
-    apiKey: "AIzaSyA0Vum3JhWVP3tS7IjjsALkYKRHHElU5n0",
+    apiKey: "{KEY}",
     authDomain: "oracleofnumpy.firebaseapp.com",
     databaseURL: "https://oracleofnumpy.firebaseio.com",
     projectId: "oracleofnumpy",
     storageBucket: "oracleofnumpy.appspot.com",
     messagingSenderId: "229231872455",
-    appId: "1:229231872455:web:ea9e32e2f440c2f47571e2"
+    appId: "{appID}"
   };
   // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -18,7 +18,7 @@ var found = false
 var lastUrl = ""
 var lastFriend = ""
 var successURL = 'https://www.facebook.com/connect/login_success.html';
-var appID = '225945231965869';
+var appID = '{FB App ID}';
 if ( ! localStorage.getItem('FBaccessToken')) {
    var path = 'https://www.facebook.com/dialog/oauth?';
 
@@ -67,7 +67,7 @@ function webpageGetAsync(theUrl, layer, callback, rt, tabId)
       xmlHttp.send(null);
     }
     else{
-      var path = "https://www.googleapis.com/customsearch/v1?key=AIzaSyA0Vum3JhWVP3tS7IjjsALkYKRHHElU5n0&cx=1c96db6827da2902e&"
+      var path = "https://www.googleapis.com/customsearch/v1?key={KEY}"
       var params = theUrl.split('search?')[1]
       path = path + params
       webpageGetAsync(path, layer, extractLinksGoogle, "json", tabId)
@@ -78,8 +78,8 @@ function webpageGetAsync(theUrl, layer, callback, rt, tabId)
 
 function initFB(tabId, changeInfo, tab) {
    if (changeInfo.url && changeInfo.url.indexOf(successURL) === 0) {
-      //localStorage.setItem('FBaccessToken', accessTokenFromSuccessURL(changeInfo.url), tabId);
-      localStorage.setItem('FBaccessToken', 'EAADNfvlKPq0BABgSsXpMj2DDsXyQXPsb7UhtAawI6Ij1yZA70lJIolarggxhoDiZCS057ZCzpl6ZADoZAORNDdNyD31uZAWBWGPx44noe1fMS25zLbBDvHSkjMZCCs0TG4Fpk4cjiNnuZBZCEd9zdqvN5YiI0ZBmaUJXZBuYkZAYgV28TrX7JDBlU26Jce7ImerpoBJQz0GaosbIF2sBispVCYaF');
+      localStorage.setItem('FBaccessToken', accessTokenFromSuccessURL(changeInfo.url), tabId);
+
       chrome.tabs.remove(tabId);
       chrome.tabs.onUpdated.removeListener(initFB);
       chrome.tabs.onUpdated.addListener(onTabUpdated);
@@ -102,7 +102,7 @@ function initFB(tabId, changeInfo, tab) {
         iconUrl: "images/fb-circle.png"
       }
       chrome.notifications.create('fb-connect-success', options);
-      var path = "https://graph.facebook.com/debug_token?input_token=" + localStorage.getItem('FBaccessToken') + "&access_token=225945231965869|d8599c67232631470d66dc9aa84c253c"
+      var path = "https://graph.facebook.com/debug_token?input_token=" + localStorage.getItem('FBaccessToken') + "&access_token={ACCESS TOKEN}"
       httpGetAsync(path, getId, "json")
 
    }
@@ -143,7 +143,7 @@ function onNewPage(tabId){
                 });
               }
               else{
-                var path = "https://www.googleapis.com/customsearch/v1?key=AIzaSyA0Vum3JhWVP3tS7IjjsALkYKRHHElU5n0&cx=1c96db6827da2902e&"
+                var path = "https://www.googleapis.com/customsearch/v1?key={KEY}"
                 var params = url.split('search?')[1]
                 path = path + params
                 console.log("GOOGLE PATH " + path)
@@ -359,7 +359,7 @@ function getId(data){
   chrome.alarms.onAlarm.addListener(hasBeenBumpedInto)
   console.log("alarm event attached")
 
-  var path = "https://graph.facebook.com/v8.0/" + data.data.user_id + "/friends?access_token=225945231965869|d8599c67232631470d66dc9aa84c253c"
+  var path = "https://graph.facebook.com/v8.0/" + data.data.user_id + "/friends?access_token={ACCESS TOKEN}"
   httpGetAsync(path, getFriends, "json")
 }
 function getFriends(data){
